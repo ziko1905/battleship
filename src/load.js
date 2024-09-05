@@ -1,12 +1,26 @@
-export function createGrids () {
-    const gridsDiv = document.createElement("div")
+export function createGrids (firstPlyName, scndPlyName) {
+    const leftDiv = document.createElement("div")
+    const rightDiv = document.createElement("div")
     const leftGrid = new Grid()
     const rightGrid = new Grid()
+    const leftName = document.createElement("p");
+    const rightName = document.createElement("p");
 
-    gridsDiv.appendChild(leftGrid)
-    gridsDiv.appendChild(rightGrid)
+    leftDiv.className = "playing-div"
+    leftDiv.id = "left-playing-div"
+    rightDiv.className = "playing-div"
+    rightDiv.id = "right-playing-div"
+
+    leftName.textContent = firstPlyName;
+    rightName.textContent = scndPlyName;
+
+    leftDiv.appendChild(leftGrid.getElement())
+    leftDiv.appendChild(leftName)
+    rightDiv.appendChild(rightGrid.getElement())
+    rightDiv.appendChild(rightName)
     
-    document.querySelector(".content").appendChild(gridsDiv)
+    document.querySelector(".content").appendChild(leftDiv)
+    document.querySelector(".content").appendChild(rightDiv)
 }
 
 
@@ -23,8 +37,10 @@ class Grid {
                 this.mainDiv.appendChild(cell)
             }
         }
+    }
+    getElement () {
         return this.mainDiv
     }
 }
 
-createGrids()
+createGrids("Player", "Computer")

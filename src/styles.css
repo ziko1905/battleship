@@ -1,12 +1,41 @@
+.content {
+  display: flex;
+  justify-content: center;
+  gap: 5vw;
+}
+
+.playing-div {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  justify-items: center;
+}
+
+#left-playing-div p {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+#left-playing-div .main-grid-div {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+#right-playing-div .main-grid-div {
+  grid-column: 1;
+  grid-row: 2;
+}
+
 .main-grid-div {
   display: inline-grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
+  gap: 1px;
 
-  width: 40vw;
-  height: 40vw;
+  width: 25vw;
+  height: 25vw;
 }
 
 .cell {
-  background-color: beige;
+  background-color: rgb(235, 235, 235);
 }
