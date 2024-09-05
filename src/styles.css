@@ -1,5 +1,10 @@
 @import url("../node_modules/modern-normalize/");
 
+:root {
+  --first-ply-clr: rgb(86, 202, 255);
+  --second-ply-clr: rgb(255, 77, 77);
+}
+
 .content {
   display: flex;
   justify-content: center;
@@ -62,4 +67,12 @@
 
 .cell {
   background-color: rgb(235, 235, 235);
+}
+
+#left-playing-div .cell.ship {
+  background-color: var(--first-ply-clr);
+}
+
+#right-playing-div .cell.ship {
+  background-color: var(--second-ply-clr);
 }
