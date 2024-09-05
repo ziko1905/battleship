@@ -31,18 +31,26 @@ export class GameBoard {
             }
         }
     }
-    place (m, n, length) {
+    place (m, n, length, vertical=false) {
         this.checkPlace(m, n)
-        this.checkLength(n, length)
+        this.checkLength(m, n, length, vertical)
         let _cells = []
         const pubSubChannel = `board-channel-${GameBoard.#shipId++}`;
         const newShip = new Ship(length, pubSubChannel)
         this.token = PubSub.subscribe(pubSubChannel, () => this.sinkAnother())
         try {
-            for (let i = 0; i < length; i++) {
-                this.checkPlace(m, n+i)
-                this[m][n+i].makeShip(newShip)
-                _cells.push(this[m][n+i])
+            if (!vertical) {
+                for (let i = 0; i < length; i++) {
+                    this.checkPlace(m, n + i)
+                    this[m][n+i].makeShip(newShip)
+                    _cells.push(this[m][n+i])
+                }
+            } else {
+                for (let i = 0; i < length; i++) {
+                    this.checkPlace(m + i, n)
+                    this[m+i][n].makeShip(newShip)
+                    _cells.push(this[m+i][n])
+                }
             }
             this.aliveShips++
         } catch (error) {
@@ -57,8 +65,9 @@ export class GameBoard {
         if ((m < 0 || m > GameBoard.BOARD_SIZE - 1) || (n < 0 || n > GameBoard.BOARD_SIZE - 1)) throw new Error("Wrong ship coordinates") 
         else if (this[m][n].isShip()) throw new Error("Cell already occupied")
     }
-    checkLength (n, length) {
-        if (length < 1 || n + length - 1 > GameBoard.BOARD_SIZE) throw new Error("Wrong ship length")
+    checkLength (m, n, length, vertical) {
+        if (length < 1 || (!vertical && (n + length - 1 > GameBoard.BOARD_SIZE - 1))) throw new Error("Wrong ship length")
+        else if (vertical && (m + length - 1 > GameBoard.BOARD_SIZE - 1)) throw new Error("Wrong ship length")
     }
     receiveAttack (m, n) {
         if (this[m][n].isChecked()) throw new Error("Cell already checked")

@@ -133,6 +133,18 @@ describe("Board", () => {
         board.receiveAttack(9, 8)
         expect(board.areAllSunk()).toBe(true)
     })
+
+    test("Check vertical placing", () => {
+        const board = new GameBoard()
+        board.place(0, 0, 5, true);
+        expect(board.isShip(0, 0)).toBe(true)
+        expect(board.isShip(1, 0)).toBe(true)
+        expect(board.isShip(0, 1)).toBe(false)
+    })
+
+    test("Check Invalid Vertical Placement (invalid length)", () => {
+        expect(() => board.place(9, 9, 2)).toThrow("Wrong ship length")
+    })
 })
 
 describe("Player", () => {
