@@ -1,11 +1,17 @@
+import PubSub from "pubsub-js";
+
 export class Ship {
-    constructor (length) {
+    constructor (length, publish) {
         this.length = length;
         this.hp = length;
+        this.publish = publish;
     }
     hit () {
         if (!this.hp) throw new Error("Ship already sank");
         this.hp--
+        if (!this.hp) {
+            PubSub.publishSync(this.publish)
+        }
     }
     isSunk () {
         return (!this.hp)
@@ -13,9 +19,11 @@ export class Ship {
 }
 
 export class GameBoard {
+    static #shipId = 0;
     static #BOARD_SIZE = 10
     constructor () {
         // Board represented as m * n grid
+        this.aliveShips = 0;
         for (let m = 0; m < GameBoard.#BOARD_SIZE; m++) {
             this[m] = {}
             for (let n = 0; n < GameBoard.#BOARD_SIZE; n++) { 
@@ -27,17 +35,20 @@ export class GameBoard {
         this.checkPlace(m, n)
         this.checkLength(n, length)
         let _cells = []
-        const newShip = new Ship(length)
-        for (let i = 0; i < length; i++){
-            try {
+        const pubSubChannel = `board-channel-${GameBoard.#shipId++}`;
+        const newShip = new Ship(length, pubSubChannel)
+        this.token = PubSub.subscribe(pubSubChannel, () => this.sinkAnother())
+        try {
+            for (let i = 0; i < length; i++) {
                 this.checkPlace(m, n+i)
                 this[m][n+i].makeShip(newShip)
                 _cells.push(this[m][n+i])
-            } catch (error) {
-                _cells.forEach((cell) => cell.unmakeShip())
-                throw error
             }
-        } 
+            this.aliveShips++
+        } catch (error) {
+            _cells.forEach((cell) => cell.unmakeShip())
+            throw error
+        }
     }
     isShip (m, n) {
         return this[m][n].isShip()
@@ -56,7 +67,10 @@ export class GameBoard {
         return this.isShip(m, n)
     }
     areAllSunk () {
-        return false
+        return !this.aliveShips
+    }
+    sinkAnother () {
+        this.aliveShips--
     }
 }
 
