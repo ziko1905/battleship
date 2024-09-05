@@ -33,6 +33,7 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
+    "modern-normalize": "^3.0.1",
     "pubsub-js": "^1.9.4"
   }
 }
