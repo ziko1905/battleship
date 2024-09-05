@@ -85,4 +85,49 @@ describe("Board", () => {
         expect(() => board.place(5, 7, 2)).toThrow("Cell already occupied")
         expect(board.isShip(5, 7)).toBe(false)
     })
+
+    test("Hitting ship cell", () => {
+        expect(board.receiveAttack(0, 0)).toBe(true)
+        expect(board.receiveAttack(9, 8)).toBe(true)
+    })
+
+    test("Hitting empty cell", () => {
+        expect(board.receiveAttack(2, 1)).toBe(false)
+        expect(board.receiveAttack(5, 7)).toBe(false)
+    })
+
+    test("Ship correctly hit", () => {
+        board.receiveAttack(0, 0);
+        expect(board[0][0].ship.hp).toBe(4);
+    })
+
+    test("Check missed shots", () => {
+        board.receiveAttack(6, 2)
+        expect(() => board.receiveAttack(6, 2)).toThrow("Cell already checked")
+    })
+
+    test("Check all sunk", () => {
+        board.receiveAttack(0, 0)
+        board.receiveAttack(0, 1)
+        board.receiveAttack(0, 2)
+        expect(board.areAllSunk()).toBe(false)
+        board.receiveAttack(0, 3)
+        board.receiveAttack(0, 4)
+        board.receiveAttack(2, 2)
+        expect(board.areAllSunk()).toBe(false)
+        board.receiveAttack(2, 3)
+        board.receiveAttack(2, 4)
+        board.receiveAttack(5, 7)
+        board.receiveAttack(5, 8)
+        expect(board.areAllSunk()).toBe(false)
+        board.receiveAttack(5, 9)
+        board.receiveAttack(8, 6)
+        board.receiveAttack(8, 7)
+        board.receiveAttack(8, 8)
+        expect(board.areAllSunk()).toBe(false)
+        board.receiveAttack(9, 6)
+        board.receiveAttack(9, 7)
+        board.receiveAttack(9, 8)
+        expect(board.areAllSunk()).toBe(true)
+    })
 })

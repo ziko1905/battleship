@@ -27,10 +27,11 @@ export class GameBoard {
         this.checkPlace(m, n)
         this.checkLength(n, length)
         let _cells = []
+        const newShip = new Ship(length)
         for (let i = 0; i < length; i++){
             try {
                 this.checkPlace(m, n+i)
-                this[m][n+i].makeShip()
+                this[m][n+i].makeShip(newShip)
                 _cells.push(this[m][n+i])
             } catch (error) {
                 _cells.forEach((cell) => cell.unmakeShip())
@@ -48,20 +49,35 @@ export class GameBoard {
     checkLength (n, length) {
         if (length < 1 || n + length - 1 > GameBoard.#BOARD_SIZE) throw new Error("Wrong ship length")
     }
+    receiveAttack (m, n) {
+        if (this[m][n].isChecked()) throw new Error("Cell already checked")
+        this[m][n].check()
+        if (this[m][n].isShip()) this[m][n].ship.hit()
+        return this.isShip(m, n)
+    }
+    areAllSunk () {
+        return false
+    }
 }
 
-class BoardCell {
+class BoardCell{
     constructor () {
         this.checked = false
         this.ship = false
     }
-    makeShip () {
-        this.ship = true
+    makeShip (shipObj) {
+        this.ship = shipObj
     }
     unmakeShip () {
         this.ship = false
     }
     isShip () {
-        return this.ship
+        return !!this.ship
+    }
+    isChecked () {
+        return this.checked
+    }
+    check () {
+        this.checked = true
     }
 }
