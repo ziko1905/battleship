@@ -5,6 +5,8 @@ export function createGrids (firstPlyName, scndPlyName) {
     const rightGrid = new Grid()
     const leftName = document.createElement("p");
     const rightName = document.createElement("p");
+    const leftContainer = new ShipContainer()
+    const rightContainer = new ShipContainer()
 
     leftDiv.className = "playing-div"
     leftDiv.id = "left-playing-div"
@@ -16,8 +18,10 @@ export function createGrids (firstPlyName, scndPlyName) {
 
     leftDiv.appendChild(leftGrid.getElement())
     leftDiv.appendChild(leftName)
+    leftDiv.appendChild(leftContainer.getElement())
     rightDiv.appendChild(rightGrid.getElement())
     rightDiv.appendChild(rightName)
+    rightDiv.appendChild(rightContainer.getElement())
     
     document.querySelector(".content").appendChild(leftDiv)
     document.querySelector(".content").appendChild(rightDiv)
@@ -40,6 +44,16 @@ class Grid {
     }
     getElement () {
         return this.mainDiv
+    }
+}
+
+class ShipContainer {
+    constructor () {
+        this.container = document.createElement("div")
+        this.container.className = "ship-container"
+    }
+    getElement () {
+        return this.container
     }
 }
 
