@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
-import { Ship } from "./logic";
-import { GameBoard } from "./logic";
+import { Ship, GameBoard, Player, ComputerPly } from "./logic";
 
 describe("Ships", () => {
     let ship;
@@ -133,5 +132,33 @@ describe("Board", () => {
         board.receiveAttack(9, 7)
         board.receiveAttack(9, 8)
         expect(board.areAllSunk()).toBe(true)
+    })
+})
+
+describe("Player", () => {
+    const ply = new Player()
+    const computerPly = new ComputerPly();
+    
+    test("Player has board", () => {
+        expect(ply.board).toBeInstanceOf(GameBoard);
+    })
+
+    test("Computer has board", () => {
+        expect(computerPly.board).toBeInstanceOf(GameBoard);
+    })
+
+    test("Computer generating random cords", () => {
+        expect(computerPly.getRandomCoords()).toBeLessThanOrEqual(GameBoard.BOARD_SIZE)
+        expect(computerPly.getRandomCoords()).toBeGreaterThanOrEqual(0)
+        expect(computerPly.getRandomCoords()).toBeLessThanOrEqual(GameBoard.BOARD_SIZE)
+        expect(computerPly.getRandomCoords()).toBeGreaterThanOrEqual(0)
+        expect(computerPly.getRandomCoords()).toBeLessThanOrEqual(GameBoard.BOARD_SIZE)
+        expect(computerPly.getRandomCoords()).toBeGreaterThanOrEqual(0)
+        expect(computerPly.getRandomCoords()).toBeLessThanOrEqual(GameBoard.BOARD_SIZE)
+        expect(computerPly.getRandomCoords()).toBeGreaterThanOrEqual(0)
+    }) 
+
+    test("Computer placed ships", () => {
+        expect(computerPly.board.aliveShips).toBe(5)
     })
 })

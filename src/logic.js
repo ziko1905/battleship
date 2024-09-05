@@ -20,13 +20,13 @@ export class Ship {
 
 export class GameBoard {
     static #shipId = 0;
-    static #BOARD_SIZE = 10
+    static BOARD_SIZE = 10
     constructor () {
         // Board represented as m * n grid
         this.aliveShips = 0;
-        for (let m = 0; m < GameBoard.#BOARD_SIZE; m++) {
+        for (let m = 0; m < GameBoard.BOARD_SIZE; m++) {
             this[m] = {}
-            for (let n = 0; n < GameBoard.#BOARD_SIZE; n++) { 
+            for (let n = 0; n < GameBoard.BOARD_SIZE; n++) { 
                 this[m][n] = new BoardCell()
             }
         }
@@ -54,11 +54,11 @@ export class GameBoard {
         return this[m][n].isShip()
     }
     checkPlace (m, n) {
-        if ((m < 0 || m > GameBoard.#BOARD_SIZE - 1) || (n < 0 || n > GameBoard.#BOARD_SIZE - 1)) throw new Error("Wrong ship coordinates") 
+        if ((m < 0 || m > GameBoard.BOARD_SIZE - 1) || (n < 0 || n > GameBoard.BOARD_SIZE - 1)) throw new Error("Wrong ship coordinates") 
         else if (this[m][n].isShip()) throw new Error("Cell already occupied")
     }
     checkLength (n, length) {
-        if (length < 1 || n + length - 1 > GameBoard.#BOARD_SIZE) throw new Error("Wrong ship length")
+        if (length < 1 || n + length - 1 > GameBoard.BOARD_SIZE) throw new Error("Wrong ship length")
     }
     receiveAttack (m, n) {
         if (this[m][n].isChecked()) throw new Error("Cell already checked")
@@ -93,5 +93,35 @@ class BoardCell{
     }
     check () {
         this.checked = true
+    }
+}
+
+export class Player {
+    constructor () {
+        this.board = new GameBoard()
+    }
+    placeShips () {
+        let i = 0;
+        const lengths = [5, 4, 3, 3, 2]
+        while (i < lengths.length) {
+            try {
+                const m = this.getRandomCoords();
+                const n = this.getRandomCoords();
+                this.board.place(m, n, lengths[i]);
+                i++
+            } catch {
+                continue
+            }
+        }
+    }
+    getRandomCoords () {
+        return Math.floor(Math.random() * (GameBoard.BOARD_SIZE + 1))
+    }
+}
+
+export class ComputerPly extends Player {
+    constructor () {
+        super()
+        this.placeShips()
     }
 }
