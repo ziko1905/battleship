@@ -1,5 +1,6 @@
 import "./styles.css";
 import PubSub from "pubsub-js";
+import "./load.js"
 
 
 const f = () => {

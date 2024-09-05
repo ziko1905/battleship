@@ -1,0 +1,12 @@
+.main-grid-div {
+  display: inline-grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+
+  width: 40vw;
+  height: 40vw;
+}
+
+.cell {
+  background-color: beige;
+}
