@@ -62,7 +62,6 @@ function play() {
     ply1.logic.placeShips()
     ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 
-    console.log(turn.isComputerPlaying())
     addListenersToCells(turn.isComputerPlaying())
 }
 
