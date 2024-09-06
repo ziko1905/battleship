@@ -1,6 +1,16 @@
 @import url("../node_modules/modern-normalize/");
 
+@font-face {
+  font-family: "soda_shakeregular";
+  src:
+    url("../media/fonts/soda-shake/soda_shake-webfont.woff2") format("woff2"),
+    url("../media/fonts/soda-shake/soda_shake-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
+  font-family: "soda_shakeregular", "Courier New", Courier, monospace;
   --first-ply-clr: rgb(86, 202, 255);
   --second-ply-clr: rgb(255, 77, 77);
 }
