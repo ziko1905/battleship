@@ -32,26 +32,29 @@ export class Turn {
     }
 }
 
-const ply1 = {
-    logic: new Player(),
-    grid: leftGrid,
-    name: "Player",
-}
+let ply1;
+let ply2;
+let turn;
 
-const ply2 = {
-    logic: new Player(),
-    grid: rightGrid,
-    name: "Computer",
-}
+function play() {
+    ply1 = {
+        logic: new Player(),
+        grid: leftGrid,
+        name: "Player",
+    }
+    
+    ply2 = {
+        logic: new Player(),
+        grid: rightGrid,
+        name: "Computer",
+    }
 
-const turn = new Turn(ply1, ply2)
+    turn = new Turn(ply1, ply2)
 
-// Predetermined ships values
-const leftShips = [[0, 0, 5], [2, 2, 4, true], [8, 6, 3], [9, 6, 3], [5, 8, 2, true]]
+    ply1.logic.placeShips()
+    ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 
-for (let i = 0; i < 5; i++) {
-    ply1.logic.board.place(...leftShips[i])
-    ply1.grid.showShip(...leftShips[i])
+    ply2.logic.placeShips()
 }
 
 play()
