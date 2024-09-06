@@ -113,3 +113,25 @@ p {
   border-radius: 20px;
   box-shadow: 0 0 13px -4px;
 }
+
+.win-div {
+  position: fixed;
+  padding: 20px;
+  width: 50vw;
+  background-color: rgb(149, 255, 149);
+  text-align: center;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 30px;
+}
+
+.win-p {
+  font-size: 3rem;
+}
+
+.win-btn {
+  font-size: 2rem;
+  padding: 10px;
+  border-radius: 10px;
+}

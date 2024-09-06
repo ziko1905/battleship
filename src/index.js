@@ -1,8 +1,11 @@
 import "./styles.css";
+import PubSub from "pubsub-js";
 import "./load.js"
 import { displayTurn, leftGrid, rightGrid } from "./ui-controller.js"
 import { Player } from "./logic.js";
 import { ErrorMessage } from "./load.js";
+
+const WINNING_CHANNEL = "win"
 
 export class Turn {
     constructor (ply1, ply2) {
@@ -31,12 +34,14 @@ export class Turn {
 
 const ply1 = {
     logic: new Player(),
-    grid: leftGrid
+    grid: leftGrid,
+    name: "Player",
 }
 
 const ply2 = {
     logic: new Player(),
-    grid: rightGrid
+    grid: rightGrid,
+    name: "Computer",
 }
 
 const turn = new Turn(ply1, ply2)
@@ -56,7 +61,10 @@ export function placeFromEvent (m, n, left) {
     if (turn.isLeftTurn() !== left) {
         try {
             const ply = turn.getNextAttacked()
-            if (ply.logic.board.receiveAttack(m, n)) ply.grid.reviewShip(m, n)
+            if (ply.logic.board.receiveAttack(m, n)) {
+                ply.grid.reviewShip(m, n)
+                if (ply.logic.board.areAllSunk()) PubSub.publish(WINNING_CHANNEL, turn.getNext())
+            }
             else {
                 ply.grid.reviewEmpty(m, n)
                 turn.changeTurn()
@@ -67,4 +75,8 @@ export function placeFromEvent (m, n, left) {
             setTimeout(() => error.remove(), 3000)
         }
     }
+}
+
+function declareWinner (winner) {
+    
 }

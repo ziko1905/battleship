@@ -81,3 +81,26 @@ export class ErrorMessage {
         this.div.remove()
     }
 }
+
+export class WinningMessage {
+    static winDiv = document.createElement("div")
+    static create (name, boatsLeft, callBack) {
+        const winP = document.createElement("p")
+        const resetButton = document.createElement("button")
+
+        WinningMessage.winDiv.className = "win-div"
+        winP.className = "win-p"
+        winP.textContent = `${name} won! With ${boatsLeft} boats left!`
+        resetButton.className = "win-btn"
+        resetButton.textContent = "Play again"
+        resetButton.addEventListener("click", callBack)
+
+        WinningMessage.winDiv.appendChild(winP)
+        WinningMessage.winDiv.appendChild(resetButton)
+        document.body.appendChild(WinningMessage.winDiv)
+    }
+    static remove () {
+        WinningMessage.textContent = "";
+        document.body.removeChild(WinningMessage.winDiv)
+    }
+}
