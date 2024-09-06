@@ -138,6 +138,19 @@ export class ComputerPly extends Player {
     constructor () {
         super()
         this.placeShips()
+        this.createGuesses()
+    }
+    guessRandom () {
+        return this.guesses.pop()
+    }
+    async createGuesses () {
+        this.guesses = []
+        for (let m = 0; m < GameBoard.BOARD_SIZE; m++) {
+            for (let n = 0; n < GameBoard.BOARD_SIZE; n++) {
+                this.guesses.push([m, n])
+            }
+        }
+        shuffle(this.guesses)
     }
 }
 
@@ -151,4 +164,4 @@ export function shuffle (arr) {
         arr[replacement] = old
         i--
     }
-}
+} 

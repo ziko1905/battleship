@@ -1,13 +1,17 @@
 import { placeFromEvent } from "."
 import emptyUrl from "../media/cross.svg"
 
-document.querySelectorAll(".cell").forEach((cell) => {
-    cell.addEventListener("click", () => {
-        // Last arguments represents witch cell was clicked, left or right side one
-        // True for left
-        placeFromEvent(+cell.getAttribute("data-row"), +cell.getAttribute("data-col"), document.getElementById("left-playing-div").contains(cell))
+export function addListenersToCells (computer=false) {
+    let grid = document
+    if (computer) grid = document.querySelector("#right-playing-div")
+    grid.querySelectorAll(".cell").forEach((cell) => {
+        cell.addEventListener("click", () => {
+            // Last arguments represents witch cell was clicked, left or right side one
+            // True for left
+            placeFromEvent(+cell.getAttribute("data-row"), +cell.getAttribute("data-col"), document.getElementById("left-playing-div").contains(cell))
+        })
     })
-})
+}
 
 export function clearGrid (specific) {
     const grid = specific || document.body

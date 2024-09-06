@@ -64,6 +64,7 @@ createGrids("Player", "Computer")
 
 export class ErrorMessage {
     constructor (error) {
+        console.log(error)
         const errorDiv = document.createElement("div")
         const errorP = document.createElement("p")
 

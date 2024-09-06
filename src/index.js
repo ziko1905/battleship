@@ -1,8 +1,8 @@
 import "./styles.css";
 import PubSub from "pubsub-js";
 import "./load.js"
-import { clearGrid, displayTurn, leftGrid, rightGrid } from "./ui-controller.js"
-import { Player } from "./logic.js";
+import { addListenersToCells, clearGrid, displayTurn, leftGrid, rightGrid } from "./ui-controller.js"
+import { ComputerPly, Player } from "./logic.js";
 import { ErrorMessage, WinningMessage } from "./load.js";
 
 const WINNING_CHANNEL = "win"
@@ -28,7 +28,14 @@ export class Turn {
 
     changeTurn () {
         displayTurn()
-        this.next = this.next === this.left ? this.right : this.left
+        if (this.next === this.left) {
+            this.next = this.right
+            computerPlay()
+        } else this.next = this.left
+    }
+
+    isComputerPlaying () {
+        return (this.right.logic instanceof ComputerPly)
     }
 }
 
@@ -45,7 +52,7 @@ function play() {
     }
     
     ply2 = {
-        logic: new Player(),
+        logic: new ComputerPly(),
         grid: rightGrid,
         name: "Computer",
     }
@@ -55,7 +62,8 @@ function play() {
     ply1.logic.placeShips()
     ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 
-    ply2.logic.placeShips()
+    console.log(turn.isComputerPlaying())
+    addListenersToCells(turn.isComputerPlaying())
 }
 
 play()
@@ -82,6 +90,14 @@ export function placeFromEvent (m, n, left) {
         const wrongGrid = new ErrorMessage("Please select one cell of opponents grid")
         wrongGrid.show(2000)
 
+    }
+}
+
+async function computerPlay () {
+    while (!turn.isLeftTurn()) {
+        const nextAttack = turn.getNext().logic.guessRandom()
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        placeFromEvent(nextAttack[0], nextAttack[1], true)
     }
 }
 
