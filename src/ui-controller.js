@@ -23,7 +23,7 @@ class GridController {
     }
     reviewEmpty (m, n) {
         const cell = this.div.querySelector(`[data-row="${m}"][data-col="${n}"]`)
-        const emptyImg = document.createElement("img");
+        const emptyImg = document.createElement("img")
 
         emptyImg.src = emptyUrl
 
@@ -31,7 +31,12 @@ class GridController {
     }
     reviewShip (m, n) {
         const cell = this.div.querySelector(`[data-row="${m}"][data-col="${n}"]`)
-        cell.classList.add("ship");
+        const shipImg = document.createElement("img")
+
+        shipImg.src = emptyUrl
+
+        cell.classList.add("ship")
+        cell.appendChild(shipImg)
     }
 }
 

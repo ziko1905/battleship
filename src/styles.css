@@ -100,6 +100,11 @@ p {
   width: 100%;
 }
 
+.cell.ship img {
+  filter: brightness(0) saturate(100%) invert(22%) sepia(45%) saturate(2438%)
+    hue-rotate(339deg) brightness(72%) contrast(106%);
+}
+
 .error-div {
   position: fixed;
   display: inline-block;
