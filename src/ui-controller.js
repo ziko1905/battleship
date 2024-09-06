@@ -29,7 +29,7 @@ class GridController {
 
         cell.appendChild(emptyImg)
     }
-    reviewShip (m, n, length, vertical=false) {
+    reviewShip (m, n) {
         const cell = this.div.querySelector(`[data-row="${m}"][data-col="${n}"]`)
         cell.classList.add("ship");
     }
