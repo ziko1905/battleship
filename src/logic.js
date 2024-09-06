@@ -122,7 +122,7 @@ export class Player {
             try {
                 const m = this.getRandomCoords();
                 const n = this.getRandomCoords();
-                this.board.place(m, n, lengths[i]);
+                this.board.place(m, n, lengths[i], Math.floor(Math.random() * 2))
                 i++
             } catch {
                 continue
