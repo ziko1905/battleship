@@ -2,6 +2,7 @@ import { placeFromEvent } from "."
 import emptyUrl from "../media/cross.svg"
 
 export class GridController {
+    static cellEvents = [];
     constructor (selectedDiv) {
         this.div = selectedDiv
     }
@@ -48,12 +49,16 @@ export class GridController {
         let grid = document
         if (computer) grid = document.querySelector("#right-playing-div")
         grid.querySelectorAll(".cell").forEach((cell) => {
-            cell.addEventListener("click", () => {
-                // Last arguments represents witch cell was clicked, left or right side one
-                // True for left
-                placeFromEvent(+cell.getAttribute("data-row"), +cell.getAttribute("data-col"), document.getElementById("left-playing-div").contains(cell))
-            })
+            // Last arguments represents witch cell was clicked, left or right side one
+            // True for left
+            const funct = () => placeFromEvent(+cell.getAttribute("data-row"), +cell.getAttribute("data-col"), document.getElementById("left-playing-div").contains(cell))
+            GridController.cellEvents.push([cell, funct])
+            cell.addEventListener("click", funct)
         })
+    }
+    static removeCellsListeners () {
+        GridController.cellEvents.forEach((l) => l[0].removeEventListener("click", l[1]))
+        GridController.cellEvents = []
     }
 }
 

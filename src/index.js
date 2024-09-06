@@ -63,10 +63,10 @@ function play() {
     ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 
     console.log(ply2.logic.board)
+    GridController.removeCellsListeners()
     GridController.addListenersToCells(turn.isComputerPlaying())
 }
 
-play()
 play()
 
 export function placeFromEvent (m, n, left) {
