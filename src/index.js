@@ -2,6 +2,7 @@ import "./styles.css";
 import "./load.js"
 import { leftGrid, rightGrid } from "./ui-controller.js"
 import { Player } from "./logic.js";
+import { ErrorMessage } from "./load.js";
 
 export class Turn {
     constructor (ply1, ply2) {
@@ -61,8 +62,10 @@ export function placeFromEvent (m, n, left) {
                 ply.grid.reviewEmpty(m, n)
                 turn.changeTurn()
             }
-        } catch (error) {
-            console.log(error)
+        } catch (errorMsg) {
+            const error = new ErrorMessage(errorMsg)
+            error.show()
+            setTimeout(() => error.remove(), 3000)
         }
     }
 }

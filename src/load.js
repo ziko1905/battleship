@@ -60,3 +60,23 @@ class ShipContainer {
 }
 
 createGrids("Player", "Computer")
+
+export class ErrorMessage {
+    constructor (error) {
+        const errorDiv = document.createElement("div")
+        const errorP = document.createElement("p")
+
+        errorDiv.className = "error-div";
+        errorP.className = "error-p";
+        errorP.textContent = error
+        
+        errorDiv.appendChild(errorP)
+        this.div = errorDiv
+    }
+    show () {
+        document.body.appendChild(this.div)
+    }
+    remove () {
+        this.div.remove()
+    }
+}

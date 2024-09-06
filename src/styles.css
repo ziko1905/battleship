@@ -90,3 +90,17 @@
 .cell img {
   width: 100%;
 }
+
+.error-div {
+  position: fixed;
+  display: inline-block;
+  background-color: #ff313180;
+  color: #000000;
+  padding: 10px 20px;
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  box-sizing: border-box;
+  border-radius: 20px;
+  box-shadow: 0 0 13px -4px;
+}
