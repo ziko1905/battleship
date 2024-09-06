@@ -93,14 +93,17 @@ export class WinningMessage {
         winP.textContent = `${name} won! With ${boatsLeft} boats left!`
         resetButton.className = "win-btn"
         resetButton.textContent = "Play again"
-        resetButton.addEventListener("click", callBack)
+        resetButton.addEventListener("click", () => {
+            WinningMessage.remove()
+            callBack()
+        })
 
         WinningMessage.winDiv.appendChild(winP)
         WinningMessage.winDiv.appendChild(resetButton)
         document.body.appendChild(WinningMessage.winDiv)
     }
     static remove () {
-        WinningMessage.textContent = "";
+        WinningMessage.winDiv.textContent = "";
         document.body.removeChild(WinningMessage.winDiv)
     }
 }

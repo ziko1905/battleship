@@ -9,6 +9,14 @@ document.querySelectorAll(".cell").forEach((cell) => {
     })
 })
 
+export function clearGrid (specific) {
+    const grid = specific || document.body
+    grid.querySelectorAll(".cell").forEach((cell) => {
+        cell.textContent = ""
+        cell.className = "cell"
+    })
+}
+
 class GridController {
     constructor (selectedDiv) {
         this.div = selectedDiv

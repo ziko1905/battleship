@@ -1,9 +1,9 @@
 import "./styles.css";
 import PubSub from "pubsub-js";
 import "./load.js"
-import { displayTurn, leftGrid, rightGrid } from "./ui-controller.js"
+import { clearGrid, displayTurn, leftGrid, rightGrid } from "./ui-controller.js"
 import { Player } from "./logic.js";
-import { ErrorMessage } from "./load.js";
+import { ErrorMessage, WinningMessage } from "./load.js";
 
 const WINNING_CHANNEL = "win"
 
@@ -37,6 +37,7 @@ let ply2;
 let turn;
 
 function play() {
+    clearGrid()
     ply1 = {
         logic: new Player(),
         grid: leftGrid,
