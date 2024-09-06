@@ -1,6 +1,6 @@
 import "./styles.css";
 import "./load.js"
-import { leftGrid, rightGrid } from "./ui-controller.js"
+import { displayTurn, leftGrid, rightGrid } from "./ui-controller.js"
 import { Player } from "./logic.js";
 import { ErrorMessage } from "./load.js";
 
@@ -24,6 +24,7 @@ export class Turn {
     }
 
     changeTurn () {
+        displayTurn()
         this.next = this.next === this.left ? this.right : this.left
     }
 }

@@ -33,7 +33,14 @@ class GridController {
         const cell = this.div.querySelector(`[data-row="${m}"][data-col="${n}"]`)
         cell.classList.add("ship");
     }
+}
 
+export function displayTurn () {
+    const leftTitle = document.querySelector("#left-playing-div p")
+    const rightTitle = document.querySelector("#right-playing-div p")
+
+    leftTitle.classList.toggle("turn")
+    rightTitle.classList.toggle("turn")
 }
 
 export const leftGrid = new GridController(document.querySelector("#left-playing-div .main-grid-div"))

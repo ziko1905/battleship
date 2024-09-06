@@ -24,7 +24,7 @@
 .playing-div {
   display: grid;
   grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
+  grid-template-rows: 100px auto;
   justify-items: center;
   align-items: center;
   gap: 0 20px;
@@ -38,6 +38,15 @@
   height: 45vh;
   border-radius: 20px;
   box-shadow: 0 0 6px -3px;
+}
+
+p {
+  font-size: 2rem;
+}
+
+.playing-div p.turn {
+  font-size: 3rem;
+  text-decoration: underline;
 }
 
 #left-playing-div p {

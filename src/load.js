@@ -13,8 +13,9 @@ export function createGrids (firstPlyName, scndPlyName) {
     rightDiv.className = "playing-div"
     rightDiv.id = "right-playing-div"
 
-    leftName.textContent = firstPlyName;
-    rightName.textContent = scndPlyName;
+    leftName.textContent = firstPlyName
+    leftName.classList.add("turn")
+    rightName.textContent = scndPlyName
 
     leftDiv.appendChild(leftGrid.getElement())
     leftDiv.appendChild(leftName)
