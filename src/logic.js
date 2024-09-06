@@ -24,6 +24,7 @@ export class GameBoard {
     constructor () {
         // Board represented as m * n grid
         this.aliveShips = 0;
+        this.ships = []
         for (let m = 0; m < GameBoard.BOARD_SIZE; m++) {
             this[m] = {}
             for (let n = 0; n < GameBoard.BOARD_SIZE; n++) { 
@@ -38,6 +39,7 @@ export class GameBoard {
         const pubSubChannel = `board-channel-${GameBoard.#shipId++}`;
         const newShip = new Ship(length, pubSubChannel)
         this.token = PubSub.subscribe(pubSubChannel, () => this.sinkAnother())
+        this.ships.push([...arguments])
         try {
             if (!vertical) {
                 for (let i = 0; i < length; i++) {
@@ -55,6 +57,7 @@ export class GameBoard {
             this.aliveShips++
         } catch (error) {
             _cells.forEach((cell) => cell.unmakeShip())
+            this.ships.pop()
             throw error
         }
     }
@@ -80,6 +83,9 @@ export class GameBoard {
     }
     sinkAnother () {
         this.aliveShips--
+    }
+    getAllShips () {
+        return this.ships
     }
 }
 

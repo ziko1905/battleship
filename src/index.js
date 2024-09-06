@@ -50,6 +50,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 ply2.logic.placeShips()
+ply2.logic.board.getAllShips().forEach((ship) => ply2.grid.showShip(...ship))
 
 export function placeFromEvent (m, n, left) {
     if (turn.isLeftTurn() !== left) {
