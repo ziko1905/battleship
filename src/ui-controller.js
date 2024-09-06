@@ -12,6 +12,6 @@ class GridController {
     }
 }
 
-const leftGrid = new GridController(document.querySelector("#left-playing-div .main-grid-div"))
-const rightGrid = new GridController(document.querySelector("#right-playing-div .main-grid-div"))
+export const leftGrid = new GridController(document.querySelector("#left-playing-div .main-grid-div"))
+export const rightGrid = new GridController(document.querySelector("#right-playing-div .main-grid-div"))
 
