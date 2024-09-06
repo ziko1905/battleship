@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { Ship, GameBoard, Player, ComputerPly } from "./logic";
+import { Ship, GameBoard, Player, ComputerPly, shuffle } from "./logic";
 
 describe("Ships", () => {
     let ship;
@@ -172,5 +172,16 @@ describe("Player", () => {
 
     test("Computer placed ships", () => {
         expect(computerPly.board.aliveShips).toBe(5)
+    })
+})
+
+describe("Shuffling funct", () => {
+    test("Happy path 1", () => {
+        const old = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        let arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        shuffle(arr)
+        arr = arr.map((val, i) => (val === old[i]))
+
+        expect(arr).toContain(false)
     })
 })

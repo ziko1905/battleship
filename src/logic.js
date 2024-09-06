@@ -140,3 +140,15 @@ export class ComputerPly extends Player {
         this.placeShips()
     }
 }
+
+export function shuffle (arr) {
+    let i = arr.length - 1;
+    while (i > 0) {
+        const replacement = Math.floor(arr.length * Math.random())
+        const replacementVal = arr[replacement]
+        const old = arr[i] 
+        arr[i] = replacementVal
+        arr[replacement] = old
+        i--
+    }
+}
