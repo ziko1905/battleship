@@ -45,12 +45,11 @@ const rightShips = [[0, 2, 2, true], [2, 0, 3, true], [6, 6, 3], [3, 2, 4], [9, 
 
 for (let i = 0; i < 5; i++) {
     ply1.logic.board.place(...leftShips[i])
-    ply1.grid.placeShip(...leftShips[i])
+    ply1.grid.showShip(...leftShips[i])
 }
 
 for (let j = 0; j < 5; j++) {
     ply2.logic.board.place(...rightShips[j])
-    ply2.grid.placeShip(...rightShips[j])
 }
 
 export function placeFromEvent (m, n, left) {
