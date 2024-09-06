@@ -18,7 +18,6 @@ class GridController {
             let cell
             if (vertical) cell = this.div.querySelector(`[data-row="${m+i}"][data-col="${n}"]`)
             else cell = this.div.querySelector(`[data-row="${m}"][data-col="${n+i}"]`)
-            cell.classList.add("ship")
         }
     }
     reviewEmpty (m, n) {

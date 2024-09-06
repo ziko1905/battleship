@@ -58,8 +58,10 @@ export function placeFromEvent (m, n, left) {
         try {
             const ply = turn.getNextAttacked()
             if (ply.logic.board.receiveAttack(m, n)) ply.grid.reviewShip(m, n)
-            else ply.grid.reviewEmpty(m, n)
-            turn.changeTurn()
+            else {
+                ply.grid.reviewEmpty(m, n)
+                turn.changeTurn()
+            }
         } catch (error) {
             console.log(error)
         }
