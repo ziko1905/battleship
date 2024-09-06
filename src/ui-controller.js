@@ -1,5 +1,6 @@
 import { placeFromEvent } from "."
 import emptyUrl from "../media/cross.svg"
+import PubSub from "pubsub-js";
 
 export class GridController {
     static cellEvents = [];
@@ -59,6 +60,38 @@ export class GridController {
     static removeCellsListeners () {
         GridController.cellEvents.forEach((l) => l[0].removeEventListener("click", l[1]))
         GridController.cellEvents = []
+    }
+}
+
+export class ShipContainerController {
+    constructor (div, board, computer=false) {
+        this.div = div
+        this.container = div.querySelector(".ship-container")
+        this.computer = computer
+        this.ships = board.ships
+        this.ships.sort((a, b) => b[2] - a[2])
+        this.ships.forEach((ship) => {
+            const shipElem = this.createShip(ship[2])
+            this.container.appendChild(shipElem)
+            PubSub.subscribe(ship[4].publish, () => {
+                shipElem.remove()
+            })
+        })
+        
+    }
+    createShip (length) {
+        const ship = document.createElement("div");
+        const size = getComputedStyle(this.div.querySelector(".cell")).height
+        for (let n = 0; n < length; n++) {
+            const block = document.createElement("div");
+            block.style.height = size
+            block.style.width = size
+
+            ship.appendChild(block)
+        }
+
+        ship.className = "display-ship"
+        return ship
     }
 }
 

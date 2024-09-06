@@ -1,7 +1,7 @@
 import "./styles.css";
 import PubSub from "pubsub-js";
 import "./load.js"
-import { GridController, leftGrid, rightGrid } from "./ui-controller.js"
+import { GridController, ShipContainerController, leftGrid, rightGrid } from "./ui-controller.js"
 import { ComputerPly, Player } from "./logic.js";
 import { ErrorMessage, WinningMessage } from "./load.js";
 
@@ -50,19 +50,19 @@ function play() {
         grid: leftGrid,
         name: "Player",
     }
-    
     ply2 = {
         logic: new ComputerPly(),
         grid: rightGrid,
         name: "Computer",
     }
-
+    
     turn = new Turn(ply1, ply2)
+    ply1.container = new ShipContainerController(document.querySelector("#left-playing-div"), ply1.logic.board)
+    ply2.container = new ShipContainerController(document.querySelector("#right-playing-div"), ply2.logic.board, turn.isComputerPlaying())
 
     ply1.logic.placeShips()
     ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 
-    console.log(ply2.logic.board)
     GridController.removeCellsListeners()
     GridController.addListenersToCells(turn.isComputerPlaying())
 }

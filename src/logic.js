@@ -39,7 +39,7 @@ export class GameBoard {
         const pubSubChannel = `board-channel-${GameBoard.#shipId++}`;
         const newShip = new Ship(length, pubSubChannel)
         this.token = PubSub.subscribe(pubSubChannel, () => this.sinkAnother())
-        this.ships.push([...arguments])
+        this.ships.push([...arguments, newShip])
         try {
             if (!vertical) {
                 for (let i = 0; i < length; i++) {

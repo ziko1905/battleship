@@ -140,3 +140,24 @@ p {
   padding: 10px;
   border-radius: 10px;
 }
+
+.ship-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.display-ship {
+  display: flex;
+  gap: 1px;
+}
+
+#left-playing-div .display-ship div {
+  background-color: var(--first-ply-clr);
+}
+
+#right-playing-div .display-ship div {
+  background-color: var(--second-ply-clr);
+}
