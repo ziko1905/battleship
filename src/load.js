@@ -38,6 +38,8 @@ class Grid {
             for (let n = 0; n < Grid.SIZE; n++) {
                 const cell = document.createElement("div")
                 cell.className = "cell";
+                cell.setAttribute("data-row", m)
+                cell.setAttribute("data-col", n)
                 this.mainDiv.appendChild(cell)
             }
         }
