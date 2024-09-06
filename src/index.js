@@ -1,7 +1,7 @@
 import "./styles.css";
 import PubSub from "pubsub-js";
 import "./load.js"
-import { addListenersToCells, clearGrid, displayTurn, leftGrid, rightGrid } from "./ui-controller.js"
+import { GridController, leftGrid, rightGrid } from "./ui-controller.js"
 import { ComputerPly, Player } from "./logic.js";
 import { ErrorMessage, WinningMessage } from "./load.js";
 
@@ -27,7 +27,7 @@ export class Turn {
     }
 
     changeTurn () {
-        displayTurn()
+        GridController.displayTurn()
         if (this.next === this.left) {
             this.next = this.right
             computerPlay()
@@ -44,7 +44,7 @@ let ply2;
 let turn;
 
 function play() {
-    clearGrid()
+    GridController.clearGrid()
     ply1 = {
         logic: new Player(),
         grid: leftGrid,
@@ -62,9 +62,11 @@ function play() {
     ply1.logic.placeShips()
     ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 
-    addListenersToCells(turn.isComputerPlaying())
+    console.log(ply2.logic.board)
+    GridController.addListenersToCells(turn.isComputerPlaying())
 }
 
+play()
 play()
 
 export function placeFromEvent (m, n, left) {

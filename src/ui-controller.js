@@ -1,27 +1,7 @@
 import { placeFromEvent } from "."
 import emptyUrl from "../media/cross.svg"
 
-export function addListenersToCells (computer=false) {
-    let grid = document
-    if (computer) grid = document.querySelector("#right-playing-div")
-    grid.querySelectorAll(".cell").forEach((cell) => {
-        cell.addEventListener("click", () => {
-            // Last arguments represents witch cell was clicked, left or right side one
-            // True for left
-            placeFromEvent(+cell.getAttribute("data-row"), +cell.getAttribute("data-col"), document.getElementById("left-playing-div").contains(cell))
-        })
-    })
-}
-
-export function clearGrid (specific) {
-    const grid = specific || document.body
-    grid.querySelectorAll(".cell").forEach((cell) => {
-        cell.textContent = ""
-        cell.className = "cell"
-    })
-}
-
-class GridController {
+export class GridController {
     constructor (selectedDiv) {
         this.div = selectedDiv
     }
@@ -50,15 +30,34 @@ class GridController {
         cell.classList.add("ship")
         cell.appendChild(shipImg)
     }
+    static clearGrid (specific) {
+        const grid = specific || document.body
+        grid.querySelectorAll(".cell").forEach((cell) => {
+            cell.textContent = ""
+            cell.className = "cell"
+        })
+    }
+    static displayTurn () {
+        const leftTitle = document.querySelector("#left-playing-div p")
+        const rightTitle = document.querySelector("#right-playing-div p")
+    
+        leftTitle.classList.toggle("turn")
+        rightTitle.classList.toggle("turn")
+    }
+    static addListenersToCells (computer=false) {
+        let grid = document
+        if (computer) grid = document.querySelector("#right-playing-div")
+        grid.querySelectorAll(".cell").forEach((cell) => {
+            cell.addEventListener("click", () => {
+                // Last arguments represents witch cell was clicked, left or right side one
+                // True for left
+                placeFromEvent(+cell.getAttribute("data-row"), +cell.getAttribute("data-col"), document.getElementById("left-playing-div").contains(cell))
+            })
+        })
+    }
 }
 
-export function displayTurn () {
-    const leftTitle = document.querySelector("#left-playing-div p")
-    const rightTitle = document.querySelector("#right-playing-div p")
 
-    leftTitle.classList.toggle("turn")
-    rightTitle.classList.toggle("turn")
-}
 
 export const leftGrid = new GridController(document.querySelector("#left-playing-div .main-grid-div"))
 export const rightGrid = new GridController(document.querySelector("#right-playing-div .main-grid-div"))
