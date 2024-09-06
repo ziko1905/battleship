@@ -54,8 +54,7 @@ for (let i = 0; i < 5; i++) {
     ply1.grid.showShip(...leftShips[i])
 }
 
-ply2.logic.placeShips()
-ply2.logic.board.getAllShips().forEach((ship) => ply2.grid.showShip(...ship))
+play()
 
 export function placeFromEvent (m, n, left) {
     if (turn.isLeftTurn() !== left) {
@@ -63,7 +62,9 @@ export function placeFromEvent (m, n, left) {
             const ply = turn.getNextAttacked()
             if (ply.logic.board.receiveAttack(m, n)) {
                 ply.grid.reviewShip(m, n)
-                if (ply.logic.board.areAllSunk()) PubSub.publish(WINNING_CHANNEL, turn.getNext())
+                if (ply.logic.board.areAllSunk()) {
+                    PubSub.publish(WINNING_CHANNEL, {winnerName: turn.getNext().name, winnerShipNumber: turn.getNext().logic.board.aliveShips})
+                }
             }
             else {
                 ply.grid.reviewEmpty(m, n)
@@ -77,6 +78,8 @@ export function placeFromEvent (m, n, left) {
     }
 }
 
-function declareWinner (winner) {
-    
+function declareWinner (msg, data) {
+    WinningMessage.create(data.winnerName, data.winnerShipNumber, () => play())
 }
+
+PubSub.subscribe(WINNING_CHANNEL, declareWinner)
