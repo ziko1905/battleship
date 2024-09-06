@@ -86,7 +86,7 @@ export function placeFromEvent (m, n, left) {
             const error = new ErrorMessage(errorMsg)
             error.show(2000)
         }
-    } else {
+    } else if (!turn.isComputerPlaying()) {
         const wrongGrid = new ErrorMessage("Please select one cell of opponents grid")
         wrongGrid.show(2000)
 
