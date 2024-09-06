@@ -1,3 +1,5 @@
+import emptyUrl from "../media/cross.svg"
+
 class GridController {
     constructor (selectedDiv) {
         this.div = selectedDiv
@@ -9,6 +11,14 @@ class GridController {
             else cell = this.div.querySelector(`[data-row="${m}"][data-col="${n+i}"]`)
             cell.classList.add("ship")
         }
+    }
+    placeEmpty (m, n) {
+        const cell = this.div.querySelector(`[data-row="${m}"][data-col="${n}"]`)
+        const emptyImg = document.createElement("img");
+
+        emptyImg.src = emptyUrl
+
+        cell.appendChild(emptyImg)
     }
 }
 

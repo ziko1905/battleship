@@ -76,3 +76,7 @@
 #right-playing-div .cell.ship {
   background-color: var(--second-ply-clr);
 }
+
+.cell img {
+  width: 100%;
+}

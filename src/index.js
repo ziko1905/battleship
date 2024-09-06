@@ -1,5 +1,4 @@
 import "./styles.css";
-import PubSub from "pubsub-js";
 import "./load.js"
 import { leftGrid, rightGrid } from "./ui-controller.js"
 import { Player } from "./logic.js";
@@ -27,3 +26,6 @@ for (let j = 0; j < 5; j++) {
     ply2.logic.board.place(...rightShips[j])
     ply2.grid.placeShip(...rightShips[j])
 }
+
+ply1.grid.placeEmpty(0, 9)
+ply2.grid.placeEmpty(9, 9)
