@@ -76,9 +76,12 @@ export function placeFromEvent (m, n, left) {
             }
         } catch (errorMsg) {
             const error = new ErrorMessage(errorMsg)
-            error.show()
-            setTimeout(() => error.remove(), 3000)
+            error.show(2000)
         }
+    } else {
+        const wrongGrid = new ErrorMessage("Please select one cell of opponents grid")
+        wrongGrid.show(2000)
+
     }
 }
 

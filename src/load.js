@@ -74,8 +74,9 @@ export class ErrorMessage {
         errorDiv.appendChild(errorP)
         this.div = errorDiv
     }
-    show () {
+    show (ms) {
         document.body.appendChild(this.div)
+        if (ms) setTimeout(() => this.remove(), ms)
     }
     remove () {
         this.div.remove()
