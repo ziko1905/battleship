@@ -134,6 +134,7 @@ class DragShip {
     constructor (length, vertical=false) {
         this.length = length
         this.shipId = DragShip.shipId;
+        this.vertical = false;
         DragShip.shipId++
         this.cellFrom = 0
         this.create()
@@ -152,6 +153,11 @@ class DragShip {
         })
         this.main.addEventListener("drag", () => DragShip.picked = this)
         this.main.addEventListener("dragenter", (e) => e.stopPropagation())
+        this.main.addEventListener("click", () => this.rotate())
+    }
+    rotate () {
+        this.vertical = !this.vertical
+        this.main.classList.toggle("vertical")
     }
     getElement () {
         return this.main

@@ -80,8 +80,15 @@ p {
   grid-template-rows: repeat(10, 1fr);
   gap: 1px;
 
+  position: relative;
   width: 25vw;
   height: 25vw;
+}
+
+#left-playing-div .main-grid-div::before {
+  position: absolute;
+  content: "For rotating ships click them.";
+  transform: translate(0, -100%);
 }
 
 .cell {
@@ -152,6 +159,10 @@ p {
 .display-ship {
   display: flex;
   gap: 1px;
+}
+
+.display-ship.vertical {
+  flex-direction: column;
 }
 
 .display-ship.on-grid {
