@@ -51,10 +51,20 @@ export class GridController {
         this.div.querySelectorAll(".cell").forEach((cell) => {
             const addDrag = (e) => {
                 const ship = DragShip.picked
-                if (!e.target.contains(ship.getElement()) && e.target.classList.contains("cell")) {
-                    console.log(e.target)
-                    e.target.appendChild(ship.getElement())
+                const currRow = +e.target.getAttribute("data-row")
+                const currCol = +e.target.getAttribute("data-col")
+                let targetRow = currRow
+                let targetCol = currCol
+                if (ship.vertical) {
+                    targetRow = currRow - ship.cellFrom > -1 ? currRow - ship.cellFrom : 0
+                    targetRow = targetRow > 10 - ship.length ? 10 - ship.length : targetRow
+                } else {
+                    targetCol = currCol - ship.cellFrom > -1 ? currCol - ship.cellFrom : 0
+                    targetCol = targetCol > 10 - ship.length ? 10 - ship.length : targetCol
                 }
+                const elem = this.div.querySelector(`[data-row="${targetRow}"][data-col="${targetCol}"]`)
+                console.log(e.target)
+                elem.appendChild(ship.getElement())
                 ship.getElement().classList.add("on-grid")
             }
             GridController.cellDragEvents.push([cell, addDrag])
