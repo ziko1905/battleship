@@ -50,10 +50,9 @@ export class GridController {
     makeCellsAcceptDrag () {
         this.div.querySelectorAll(".cell").forEach((cell) => {
             const addDrag = (e) => {
-                e.stopPropagation()
-                console.log(e.target)
                 const ship = DragShip.picked
-                if (!e.target.contains(ship.getElement())) {
+                if (!e.target.contains(ship.getElement()) && e.target.classList.contains("cell")) {
+                    console.log(e.target)
                     e.target.appendChild(ship.getElement())
                 }
                 ship.getElement().classList.add("on-grid")
@@ -152,12 +151,19 @@ class DragShip {
             this.cellFrom = data;
         })
         this.main.addEventListener("drag", () => DragShip.picked = this)
-        this.main.addEventListener("dragenter", (e) => e.stopPropagation())
+        // this.main.addEventListener("dragenter", (e) => e.stopPropagation())
         this.main.addEventListener("click", () => this.rotate())
+        this.main.addEventListener("dragend", (e) => this.sendBack(e))
     }
     rotate () {
         this.vertical = !this.vertical
         this.main.classList.toggle("vertical")
+    }
+    sendBack (e) {
+        if (!e.dataTransfer.dropEffect) {
+            this.getElement().classList.remove("on-grid")
+            document.querySelector("#left-playing-div .ship-container").appendChild(this.getElement())
+        }
     }
     getElement () {
         return this.main
