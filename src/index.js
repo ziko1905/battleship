@@ -45,6 +45,7 @@ export class Turn {
 
     startPlaying () {
         this.play = true
+        GridController.removeDragListeners()
     }
 }
 
@@ -119,6 +120,7 @@ export function randomize () {
         new ErrorMessage("Game already started").show(1000)
         return
     }
+    GridController.removeDragListeners()
     GridController.clearGrid(document.querySelector("#left-playing-div"))
     ply1 = {
         logic: new Player(),
@@ -138,6 +140,7 @@ export function reset () {
         new ErrorMessage("Game already started").show(1000)
         return
     }
+    ply1.grid.makeCellsAcceptDrag()
     GridController.clearGrid(document.querySelector("#left-playing-div"))
     ply1 = {
         logic: new Player(),

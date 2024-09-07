@@ -95,6 +95,7 @@ export class GameBoard {
             else col = n + i
             this[row][col] = new BoardCell()
         }
+        this.sinkAnother()
     }
 }
 

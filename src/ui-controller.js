@@ -106,6 +106,12 @@ export class GridController {
         GridController.cellClickEvents.forEach((l) => l[0].removeEventListener("click", l[1]))
         GridController.cellClickEvents = []
     }
+    static removeDragListeners () {
+        GridController.cellDragEvents.forEach((l) => l[0].removeEventListener("dragenter", l[1]))
+        GridController.cellDropEvents.forEach((l) => l[0].removeEventListener("drop", l[1]))
+        GridController.cellDragEvents = []
+        GridController.cellDropEvents = []
+    }
 }
 
 export class ShipContainerController {
