@@ -68,15 +68,22 @@ export class ShipContainerController {
         this.div = div
         this.container = div.querySelector(".ship-container")
         this.computer = computer
-        this.ships = board.ships
-        this.ships.sort((a, b) => b[2] - a[2])
-        this.ships.forEach((ship) => {
-            const shipElem = this.createShip(ship[2])
-            this.container.appendChild(shipElem)
-            PubSub.subscribe(ship[4].publish, () => {
-                shipElem.remove()
+        if (computer) {
+            this.ships = board.ships
+            this.ships.sort((a, b) => b[2] - a[2])
+            this.ships.forEach((ship) => {
+                const shipElem = this.createShip(ship[2])
+                this.container.appendChild(shipElem)
+                PubSub.subscribe(ship[4].publish, () => {
+                    shipElem.remove()
+                })
             })
-        })
+        } else {
+            for (let n of [5, 4, 3, 3 ,2]) {
+                const dragShip = new DragShip(n)
+                this.container.appendChild(dragShip.getElement())
+            }
+        }
         
     }
     createShip (length) {
@@ -95,6 +102,54 @@ export class ShipContainerController {
     }
 }
 
+class DragShip {
+    static picked
+    static shipId = 0
+    constructor (length, vertical=false) {
+        this.length = length
+        this.shipId = DragShip.shipId;
+        DragShip.shipId++
+        this.cellFrom = 0
+        this.create()
+    }
+    create () {
+        this.main = document.createElement("div")
+        this.main.className = "display-ship"
+        this.main.draggable = true
+        const publish = `dragship-${this.shipId}`
+        for (let n = 0; n < this.length; n++) {
+            const cell = new DragShipCell(n, publish)
+            this.main.appendChild(cell.getElement())
+        }
+        PubSub.subscribe(publish, (msg, data) => {
+            this.cellFrom = data;
+        })
+        this.main.addEventListener("drag", () => DragShip.picked = this)
+    }
+    getElement () {
+        return this.main
+    }
+}
+
+class DragShipCell {
+    constructor (id, publish) {
+        this.id = id;
+        this.publish = publish;
+        this.create()
+    }
+    create () {
+        this.main = document.createElement("div")
+        const size = getComputedStyle(document.querySelector(".cell")).height
+        this.main.style.height = size
+        this.main.style.width = size
+        this.main.addEventListener("mousedown", () => {
+            PubSub.publish(this.publish, +this.id)
+        })
+    }
+    getElement () {
+        return this.main
+    }
+}
 
 
 export const leftGrid = new GridController(document.querySelector("#left-playing-div .main-grid-div"))

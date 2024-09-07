@@ -60,7 +60,6 @@ function play() {
     ply1.container = new ShipContainerController(document.querySelector("#left-playing-div"), ply1.logic.board)
     ply2.container = new ShipContainerController(document.querySelector("#right-playing-div"), ply2.logic.board, turn.isComputerPlaying())
 
-    ply1.logic.placeShips()
     ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 
     GridController.removeCellsListeners()
