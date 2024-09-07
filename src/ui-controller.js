@@ -1,6 +1,7 @@
 import { placeFromEvent, turn, ply1 } from "."
 import emptyUrl from "../media/cross.svg"
 import PubSub from "pubsub-js";
+import { ErrorMessage } from "./load";
 
 export class GridController {
     static cellClickEvents = [];
@@ -68,11 +69,10 @@ export class GridController {
                 ship.place(targetRow, targetCol)
             }
             const onDrop = (e) => {
-                console.log("drop")
                 try {
                     ply1.logic.board.place(...DragShip.picked.getPlacingValue())
                 } catch (error) {
-                    console.log(error)
+                    new ErrorMessage(error).show(1000)
                     DragShip.picked.sendBack(e)
                 }
             }
@@ -181,23 +181,31 @@ class DragShip {
             DragShip.picked = this
         })
         this.main.addEventListener("dragenter", (e) => e.stopPropagation())
-        this.main.addEventListener("click", () => this.rotate())
+        this.main.addEventListener("click", (e) => this.rotate(e))
         this.main.addEventListener("dragend", (e) => this.sendBack(e))
         this.main.addEventListener("dragstart", (e) => this.clear())
     }
     clear (e) {
         if (this.m !== null && this.n !== null) {
-            ply1.logic.board.remove(this.m, this.n, this.length, this.vertical)
+            ply1.logic.board.remove(...this.getPlacingValue())
+            
         }
     }
-    rotate () {
-        this.vertical = !this.vertical
-        this.main.classList.toggle("vertical")
+    rotate (e) {
+        try {
+            this.clear()
+            this.vertical = !this.vertical
+            this.main.classList.toggle("vertical")
+            if (this.m !== null && this.n !== null) ply1.logic.board.place(...this.getPlacingValue())
+        } catch (error) {
+            new ErrorMessage(error).show(1000)
+            this.sendBack(e, true)
+        }
+        
     }
-    sendBack (e) {
+    sendBack (e, ignore=false) {
         this.getElement().classList.remove("transparent")
-        console.log(e.dataTransfer.dropEffect)
-        if (e.dataTransfer.dropEffect === "none") {
+        if (ignore || e.dataTransfer.dropEffect === "none") {
             this.getElement().classList.remove("on-grid")
             document.querySelector("#left-playing-div .ship-container").appendChild(this.getElement())
             this.resetCoords()

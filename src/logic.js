@@ -69,8 +69,8 @@ export class GameBoard {
         else if (this[m][n].isShip()) throw new Error("Cell already occupied")
     }
     checkLength (m, n, length, vertical) {
-        if (length < 1 || (!vertical && (n + length - 1 > GameBoard.BOARD_SIZE - 1))) throw new Error("Wrong ship length")
-        else if (vertical && (m + length - 1 > GameBoard.BOARD_SIZE - 1)) throw new Error("Wrong ship length")
+        if (length < 1 || (!vertical && (n + length - 1 > GameBoard.BOARD_SIZE - 1))) throw new Error("Ship too long")
+        else if (vertical && (m + length - 1 > GameBoard.BOARD_SIZE - 1)) throw new Error("Ship too long")
     }
     receiveAttack (m, n) {
         if (this[m][n].isChecked()) throw new Error("Cell already checked")

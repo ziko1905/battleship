@@ -66,8 +66,8 @@ describe("Board", () => {
     })
 
     test("Invalid placement (invalid ship length)", () => {
-        expect(() => board.place(0, 8, 5)).toThrow("Wrong ship length")
-        expect(() => board.place(0, 9, -2)).toThrow("Wrong ship length")
+        expect(() => board.place(0, 8, 5)).toThrow("Ship too long")
+        expect(() => board.place(0, 9, -2)).toThrow("Ship too long")
     })
 
     test("Invalid placement (direct occupied cell)", () => {
@@ -143,7 +143,7 @@ describe("Board", () => {
     })
 
     test("Check Invalid Vertical Placement (invalid length)", () => {
-        expect(() => board.place(9, 9, 2)).toThrow("Wrong ship length")
+        expect(() => board.place(9, 9, 2)).toThrow("Ship too long")
     })
     test("Removing ships", () => {
         board.remove(0, 0, 5)
