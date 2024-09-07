@@ -150,7 +150,10 @@ class DragShip {
         PubSub.subscribe(publish, (msg, data) => {
             this.cellFrom = data;
         })
-        this.main.addEventListener("drag", () => DragShip.picked = this)
+        this.main.addEventListener("drag", () => {
+            this.getElement().classList.add("transparent")
+            DragShip.picked = this
+        })
         // this.main.addEventListener("dragenter", (e) => e.stopPropagation())
         this.main.addEventListener("click", () => this.rotate())
         this.main.addEventListener("dragend", (e) => this.sendBack(e))
@@ -160,6 +163,7 @@ class DragShip {
         this.main.classList.toggle("vertical")
     }
     sendBack (e) {
+        this.getElement().classList.remove("transparent")
         if (!e.dataTransfer.dropEffect) {
             this.getElement().classList.remove("on-grid")
             document.querySelector("#left-playing-div .ship-container").appendChild(this.getElement())

@@ -171,6 +171,10 @@ p {
   position: absolute;
 }
 
+.display-ship.transparent {
+  pointer-events: none;
+}
+
 #left-playing-div .display-ship div {
   background-color: var(--first-ply-clr);
 }
