@@ -1,9 +1,10 @@
-import { placeFromEvent } from "."
+import { placeFromEvent, turn } from "."
 import emptyUrl from "../media/cross.svg"
 import PubSub from "pubsub-js";
 
 export class GridController {
-    static cellEvents = [];
+    static cellClickEvents = [];
+    static cellDragEvents = [];
     constructor (selectedDiv) {
         this.div = selectedDiv
     }
@@ -46,20 +47,41 @@ export class GridController {
         leftTitle.classList.toggle("turn")
         rightTitle.classList.toggle("turn")
     }
-    static addListenersToCells (computer=false) {
+    makeCellsAcceptDrag () {
+        this.div.querySelectorAll(".cell").forEach((cell) => {
+            const addDrag = (e) => {
+                e.stopPropagation()
+                console.log(e.target)
+                const ship = DragShip.picked
+                if (!e.target.contains(ship.getElement())) {
+                    e.target.appendChild(ship.getElement())
+                }
+                ship.getElement().classList.add("on-grid")
+            }
+            GridController.cellDragEvents.push([cell, addDrag])
+            cell.addEventListener("dragenter", addDrag)
+        })
+    }
+    static addListenersToCells (computer=true) {
         let grid = document
         if (computer) grid = document.querySelector("#right-playing-div")
         grid.querySelectorAll(".cell").forEach((cell) => {
             // Last arguments represents witch cell was clicked, left or right side one
             // True for left
-            const funct = () => placeFromEvent(+cell.getAttribute("data-row"), +cell.getAttribute("data-col"), document.getElementById("left-playing-div").contains(cell))
-            GridController.cellEvents.push([cell, funct])
+            const funct = () => {
+                if (!turn.isPlaying()) {
+                    document.querySelector(".play-btn").click()
+                    if (!turn.isPlaying()) return
+                }
+                placeFromEvent(+cell.getAttribute("data-row"), +cell.getAttribute("data-col"), document.getElementById("left-playing-div").contains(cell))
+            }
+            GridController.cellClickEvents.push([cell, funct])
             cell.addEventListener("click", funct)
         })
     }
     static removeCellsListeners () {
-        GridController.cellEvents.forEach((l) => l[0].removeEventListener("click", l[1]))
-        GridController.cellEvents = []
+        GridController.cellClickEvents.forEach((l) => l[0].removeEventListener("click", l[1]))
+        GridController.cellClickEvents = []
     }
 }
 
@@ -129,6 +151,7 @@ class DragShip {
             this.cellFrom = data;
         })
         this.main.addEventListener("drag", () => DragShip.picked = this)
+        this.main.addEventListener("dragenter", (e) => e.stopPropagation())
     }
     getElement () {
         return this.main

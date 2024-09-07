@@ -154,6 +154,10 @@ p {
   gap: 1px;
 }
 
+.display-ship.on-grid {
+  position: absolute;
+}
+
 #left-playing-div .display-ship div {
   background-color: var(--first-ply-clr);
 }
