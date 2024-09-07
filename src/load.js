@@ -1,4 +1,4 @@
-import { randomize } from ".";
+import { randomize, reset, startGame } from ".";
 
 export function createGrids (firstPlyName, scndPlyName) {
     const leftDiv = document.createElement("div")
@@ -120,10 +120,32 @@ class FunctButtons {
         btn.addEventListener("click", () => randomize())
         FunctButtons.buttonsDiv.appendChild(btn)
     }
+    static createReset () {
+        const btn = document.createElement("button");
+        btn.textContent = "reset"
+        btn.className = "fnct-btn"
+        btn.addEventListener("click", () => reset())
+        FunctButtons.buttonsDiv.appendChild(btn)
+    }
     static create () {
         FunctButtons.buttonsDiv.className = "fnct-btn-div"
         document.querySelector("#left-playing-div").appendChild(FunctButtons.buttonsDiv)
         FunctButtons.createRandom()
+        FunctButtons.createReset()
+    }
+}
+
+export class PlayButton {
+    constructor () {
+        this.btn = document.createElement("button")
+        this.btn.className = "play-btn";
+        this.btn.textContent = "Play!"
+        this.btn.addEventListener("click", () => {
+            if (startGame()) {
+                this.btn.remove()
+            }
+        })
+        document.body.appendChild(this.btn)
     }
 }
 

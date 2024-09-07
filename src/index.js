@@ -3,7 +3,7 @@ import PubSub from "pubsub-js";
 import "./load.js"
 import { GridController, ShipContainerController, leftGrid, rightGrid } from "./ui-controller.js"
 import { ComputerPly, Player } from "./logic.js";
-import { ErrorMessage, WinningMessage } from "./load.js";
+import { ErrorMessage, PlayButton, WinningMessage } from "./load.js";
 
 const WINNING_CHANNEL = "win"
 
@@ -12,6 +12,7 @@ export class Turn {
         this.left = ply1;
         this.right = ply2;
         this.next = ply1;
+        this.play = false
     }
 
     isLeftTurn () {
@@ -37,6 +38,14 @@ export class Turn {
     isComputerPlaying () {
         return (this.right.logic instanceof ComputerPly)
     }
+    
+    isPlaying () {
+        return this.play
+    }
+
+    startPlaying () {
+        this.play = true
+    }
 }
 
 let ply1;
@@ -55,7 +64,7 @@ function play() {
         grid: rightGrid,
         name: "Computer",
     }
-    
+    new PlayButton()
     turn = new Turn(ply1, ply2)
     ply1.container = new ShipContainerController(document.querySelector("#left-playing-div"), ply1.logic.board)
     ply2.container = new ShipContainerController(document.querySelector("#right-playing-div"), ply2.logic.board, turn.isComputerPlaying())
@@ -117,6 +126,30 @@ export function randomize () {
 
     ply1.logic.placeShips()
     ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
+}
+
+export function reset () {
+    GridController.clearGrid(document.querySelector("#left-playing-div"))
+    ply1 = {
+        logic: new Player(),
+        grid: leftGrid,
+        name: "Player",
+    }
+
+    turn = new Turn(ply1, ply2);
+
+    ply1.container = new ShipContainerController(document.querySelector("#left-playing-div"), ply1.logic.board)
+}
+
+export function startGame () {
+    if (!ply1.container.getElement().childNodes.length) {
+        turn.startPlaying()
+        return true
+    } else {
+        const error = new ErrorMessage("Place your ships to start game!")
+        error.show(1500)
+    }
+    return false
 }
 
 PubSub.subscribe(WINNING_CHANNEL, declareWinner)

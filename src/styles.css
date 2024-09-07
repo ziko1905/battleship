@@ -166,6 +166,8 @@ p {
   grid-row: 2;
   grid-column: 1;
   align-self: start;
+  display: flex;
+  gap: 20px;
 }
 
 .fnct-btn {
@@ -179,4 +181,21 @@ p {
 
 .fnct-btn:active {
   background-color: rgb(46, 112, 143);
+}
+
+.play-btn {
+  font-size: 3rem;
+  position: fixed;
+  bottom: 100px;
+  border: none;
+  background-color: #a4ffa4;
+  border-radius: 20px;
+  padding: 10px 50px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-bottom: 5px solid #77c577;
+}
+
+.play-btn:active {
+  background-color: #77c577;
 }

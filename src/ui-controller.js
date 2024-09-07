@@ -101,6 +101,9 @@ export class ShipContainerController {
         ship.className = "display-ship"
         return ship
     }
+    getElement () {
+        return this.container
+    }
 }
 
 class DragShip {
