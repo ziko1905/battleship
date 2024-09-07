@@ -113,6 +113,8 @@ export function randomize () {
     }
     turn = new Turn(ply1, ply2);
 
+    ply1.container = new ShipContainerController(document.querySelector("#left-playing-div"), ply1.logic.board, false, true)
+
     ply1.logic.placeShips()
     ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 }

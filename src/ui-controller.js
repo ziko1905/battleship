@@ -64,9 +64,10 @@ export class GridController {
 }
 
 export class ShipContainerController {
-    constructor (div, board, computer=false) {
+    constructor (div, board, computer=false, hide=false) {
         this.div = div
         this.container = div.querySelector(".ship-container")
+        this.container.textContent = ""
         this.computer = computer
         if (computer) {
             this.ships = board.ships
@@ -78,7 +79,7 @@ export class ShipContainerController {
                     shipElem.remove()
                 })
             })
-        } else {
+        } else if (!hide) {
             for (let n of [5, 4, 3, 3 ,2]) {
                 const dragShip = new DragShip(n)
                 this.container.appendChild(dragShip.getElement())

@@ -122,8 +122,7 @@ class FunctButtons {
     }
     static create () {
         FunctButtons.buttonsDiv.className = "fnct-btn-div"
-        document.querySelector("#left-playing-div .ship-container").appendChild(FunctButtons.buttonsDiv)
-        console.log(document.querySelector("#left-playing-div .ship-container"))
+        document.querySelector("#left-playing-div").appendChild(FunctButtons.buttonsDiv)
         FunctButtons.createRandom()
     }
 }

@@ -161,3 +161,22 @@ p {
 #right-playing-div .display-ship div {
   background-color: var(--second-ply-clr);
 }
+
+.fnct-btn-div {
+  grid-row: 2;
+  grid-column: 1;
+  align-self: start;
+}
+
+.fnct-btn {
+  background-color: var(--first-ply-clr);
+  font-size: 1.2rem;
+  padding: 5px;
+  border-radius: 10px;
+  border: none;
+  border-bottom: 4px solid rgb(46, 112, 143);
+}
+
+.fnct-btn:active {
+  background-color: rgb(46, 112, 143);
+}
