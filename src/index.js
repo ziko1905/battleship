@@ -115,6 +115,10 @@ function declareWinner (msg, data) {
 }
 
 export function randomize () {
+    if (turn.isPlaying()) {
+        new ErrorMessage("Game already started").show(1000)
+        return
+    }
     GridController.clearGrid(document.querySelector("#left-playing-div"))
     ply1 = {
         logic: new Player(),
@@ -130,6 +134,10 @@ export function randomize () {
 }
 
 export function reset () {
+    if (turn.isPlaying()) {
+        new ErrorMessage("Game already started").show(1000)
+        return
+    }
     GridController.clearGrid(document.querySelector("#left-playing-div"))
     ply1 = {
         logic: new Player(),
