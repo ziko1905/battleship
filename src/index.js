@@ -60,7 +60,6 @@ function play() {
     ply1.container = new ShipContainerController(document.querySelector("#left-playing-div"), ply1.logic.board)
     ply2.container = new ShipContainerController(document.querySelector("#right-playing-div"), ply2.logic.board, turn.isComputerPlaying())
 
-    ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 
     GridController.removeCellsListeners()
     GridController.addListenersToCells(turn.isComputerPlaying())
@@ -103,6 +102,19 @@ async function computerPlay () {
 
 function declareWinner (msg, data) {
     WinningMessage.create(data.winnerName, data.winnerShipNumber, () => play())
+}
+
+export function randomize () {
+    GridController.clearGrid(document.querySelector("#left-playing-div"))
+    ply1 = {
+        logic: new Player(),
+        grid: leftGrid,
+        name: "Player",
+    }
+    turn = new Turn(ply1, ply2);
+
+    ply1.logic.placeShips()
+    ply1.logic.board.getAllShips().forEach((ship) => ply1.grid.showShip(...ship))
 }
 
 PubSub.subscribe(WINNING_CHANNEL, declareWinner)

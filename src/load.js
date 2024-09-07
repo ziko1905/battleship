@@ -1,3 +1,5 @@
+import { randomize } from ".";
+
 export function createGrids (firstPlyName, scndPlyName) {
     const leftDiv = document.createElement("div")
     const rightDiv = document.createElement("div")
@@ -108,3 +110,22 @@ export class WinningMessage {
         document.body.removeChild(WinningMessage.winDiv)
     }
 }
+
+class FunctButtons {
+    static buttonsDiv = document.createElement("div")
+    static createRandom () {
+        const btn = document.createElement("button");
+        btn.textContent = "random"
+        btn.className = "fnct-btn"
+        btn.addEventListener("click", () => randomize())
+        FunctButtons.buttonsDiv.appendChild(btn)
+    }
+    static create () {
+        FunctButtons.buttonsDiv.className = "fnct-btn-div"
+        document.querySelector("#left-playing-div .ship-container").appendChild(FunctButtons.buttonsDiv)
+        console.log(document.querySelector("#left-playing-div .ship-container"))
+        FunctButtons.createRandom()
+    }
+}
+
+FunctButtons.create()
