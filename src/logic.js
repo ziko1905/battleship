@@ -87,6 +87,15 @@ export class GameBoard {
     getAllShips () {
         return this.ships
     }
+    remove (m, n, length, vertical=false) {
+        for (let i = 0; i < length; i++) {
+            let row = m
+            let col = n
+            if (vertical) row = m + i
+            else col = n + i
+            this[row][col] = new BoardCell()
+        }
+    }
 }
 
 class BoardCell{

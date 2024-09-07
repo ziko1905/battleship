@@ -145,6 +145,16 @@ describe("Board", () => {
     test("Check Invalid Vertical Placement (invalid length)", () => {
         expect(() => board.place(9, 9, 2)).toThrow("Wrong ship length")
     })
+    test("Removing ships", () => {
+        board.remove(0, 0, 5)
+        expect(board.isShip(0, 0)).toBe(false)
+        expect(() => board.place(0, 0, 5, true)).not.toThrow()
+        expect(board.isShip(1, 0)).toBe(true)
+        expect(board.isShip(1, 0)).toBe(true)
+        board.remove(0, 0, 5, true)
+        expect(board.isShip(1, 0)).toBe(false)
+        expect(board.isShip(1, 0)).toBe(false)
+    })
 })
 
 describe("Player", () => {
