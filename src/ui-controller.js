@@ -1,10 +1,11 @@
-import { placeFromEvent, turn } from "."
+import { placeFromEvent, turn, ply1 } from "."
 import emptyUrl from "../media/cross.svg"
 import PubSub from "pubsub-js";
 
 export class GridController {
     static cellClickEvents = [];
     static cellDragEvents = [];
+    static cellDropEvents = [];
     constructor (selectedDiv) {
         this.div = selectedDiv
     }
@@ -63,12 +64,25 @@ export class GridController {
                     targetCol = targetCol > 10 - ship.length ? 10 - ship.length : targetCol
                 }
                 const elem = this.div.querySelector(`[data-row="${targetRow}"][data-col="${targetCol}"]`)
-                console.log(e.target)
                 elem.appendChild(ship.getElement())
-                ship.getElement().classList.add("on-grid")
+                ship.place(targetRow, targetCol)
+            }
+            const onDrop = (e) => {
+                console.log("drop")
+                try {
+                    ply1.logic.board.place(...DragShip.picked.getPlacingValue())
+                } catch (error) {
+                    console.log(error)
+                    DragShip.picked.sendBack(e)
+                }
             }
             GridController.cellDragEvents.push([cell, addDrag])
+            GridController.cellDropEvents.push([cell, onDrop])
+            // Needed for triggering drop event
+            cell.addEventListener("dragover", (e) => e.preventDefault())
             cell.addEventListener("dragenter", addDrag)
+            cell.addEventListener("drop", onDrop)
+            
         })
     }
     static addListenersToCells (computer=true) {
@@ -142,6 +156,8 @@ class DragShip {
     static shipId = 0
     constructor (length, vertical=false) {
         this.length = length
+        this.m = null
+        this.n = null
         this.shipId = DragShip.shipId;
         this.vertical = false;
         DragShip.shipId++
@@ -164,9 +180,15 @@ class DragShip {
             this.getElement().classList.add("transparent")
             DragShip.picked = this
         })
-        // this.main.addEventListener("dragenter", (e) => e.stopPropagation())
+        this.main.addEventListener("dragenter", (e) => e.stopPropagation())
         this.main.addEventListener("click", () => this.rotate())
         this.main.addEventListener("dragend", (e) => this.sendBack(e))
+        this.main.addEventListener("dragstart", (e) => this.clear())
+    }
+    clear (e) {
+        if (this.m !== null && this.n !== null) {
+            ply1.logic.board.remove(this.m, this.n, this.length, this.vertical)
+        }
     }
     rotate () {
         this.vertical = !this.vertical
@@ -174,13 +196,27 @@ class DragShip {
     }
     sendBack (e) {
         this.getElement().classList.remove("transparent")
-        if (!e.dataTransfer.dropEffect) {
+        console.log(e.dataTransfer.dropEffect)
+        if (e.dataTransfer.dropEffect === "none") {
             this.getElement().classList.remove("on-grid")
             document.querySelector("#left-playing-div .ship-container").appendChild(this.getElement())
+            this.resetCoords()
         }
     }
     getElement () {
         return this.main
+    }
+    place (m, n) {
+        this.getElement().classList.add("on-grid")
+        this.m = m
+        this.n = n
+    }
+    resetCoords () {
+        this.m = null
+        this.n = null
+    }
+    getPlacingValue () {
+        return [this.m, this.n, this.length, this.vertical]
     }
 }
 

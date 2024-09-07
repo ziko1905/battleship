@@ -48,7 +48,7 @@ export class Turn {
     }
 }
 
-let ply1;
+export let ply1;
 let ply2;
 export let turn;
 
